@@ -1,68 +1,94 @@
-import React, { useState } from 'react';
-import Header from '../Composant/Header';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import Header from "../Composant/Header";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
+
+import "../css/LoginPage.css";
+import Footer from "../Composant/Footer";
 
 const LoginPage = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch('http://localhost:3001/api/v1/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                })
-            });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:3001/api/v1/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
 
-            const data = await response.json();
-            console.log('Data:', data);
+      const data = await response.json();
+      console.log("Data:", data);
 
-            if (!response.ok) {
-                setError('Login failed');
-                console.log('Login failed');
-            } else {
-                console.log('Login successful');
-                localStorage.setItem('token', data.body.token); // add this line
-                navigate(`/dashboard/${data.body.userId}`);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
+      if (!response.ok) {
+        setError("Login failed");
+        console.log("Login failed");
+      } else {
+        console.log("Login successful");
+        localStorage.setItem("token", data.body.token); // add this line
+        navigate(`/dashboard/${data.body.userId}`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
-    return (
-        <div>
-            <Header />
-            <form onSubmit={handleSubmit}>
-                <label>Email:</label>
-                <input type="text" value={email} onChange={handleEmailChange} />
-                <br />
-                <label>Password:</label>
-                <input type="password" value={password} onChange={handlePasswordChange} />
-                <br />
-                <button type="submit">Login</button>
-            </form>
-            <div>
-                {error && <p>{error}</p>}
+  return (
+    <div>
+      <Header />
+      <div className="container" style={{ background: "#12002b" }}>
+        <div className="form" style={{}}>
+        <FontAwesomeIcon icon={faUserCircle} />
+        <h1>Sign-in</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="input-wrapper">
+              <label>Email:</label>
+              <input
+                className="input"
+                type="text"
+                value={email}
+                onChange={handleEmailChange}
+              />
             </div>
+            <br />
+            <div className="input-wrapper">
+              <label>Password:</label>
+              <input
+                className="input"
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+            </div>
+            <br />
+            <button className="btn-submit" type="submit">
+              Sign-up
+            </button>
+          </form>
+          <div>{error && <p>{error}</p>}</div>
         </div>
-    );
+      </div>
+      <Footer />
+    </div>
+  );
 };
 
 export default LoginPage;
