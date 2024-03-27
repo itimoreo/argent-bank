@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import Header from '../Composant/Header';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -27,15 +29,17 @@ const LoginPage = () => {
                     password: password
                 })
             });
-    
+
             const data = await response.json();
-            console.log(data);
-    
+            console.log('Data:', data);
+
             if (!response.ok) {
                 setError('Login failed');
                 console.log('Login failed');
             } else {
                 console.log('Login successful');
+                localStorage.setItem('token', data.body.token); // add this line
+                navigate(`/dashboard/${data.body.userId}`);
             }
         } catch (error) {
             console.error('Error:', error);
