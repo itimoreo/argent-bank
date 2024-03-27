@@ -1,13 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import ArgentBankLogo from '../assets/img/argentBankLogo.png';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
+
 
 const UserIcon = () => {
     return (
         <div style={{color:'#2c3e50'}}>
             <FontAwesomeIcon icon={faUserCircle} />
-            <a href="#" style={{marginLeft: '10px',marginRight: '0.5rem', fontSize:'16px', textDecoration: 'none', color: 'inherit'}}>Sign-in</a>
+            <Link to="/login" style={{marginLeft: '10px',marginRight: '0.5rem', fontSize:'16px', textDecoration: 'none', color: 'inherit'}}>Sign-in</Link>
         </div>
     );
 }
