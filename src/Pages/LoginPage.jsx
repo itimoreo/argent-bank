@@ -24,44 +24,54 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const response = await fetch("http://localhost:3001/api/v1/user/login", {
+      const response = await fetch("http://localhost:3001/api/v1/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      const data = await response.json();
+      console.log("Data:", data);
+
+      if (!response.ok) {
+        setError("Login failed");
+        console.log("Login failed");
+      } else {
+        console.log("Login successful");
+        localStorage.setItem("token", data.body.token);
+
+        // Faire une autre requête pour obtenir le username
+        const userResponse = await fetch(
+          "http://localhost:3001/api/v1/user/profile",
+          {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+              Authorization: `Bearer ${data.body.token}`,
             },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-            }),
-        });
+          }
+        );
+        const userData = await userResponse.json();
+        localStorage.setItem("firstName", userData.body.firstName);
+        localStorage.setItem("lastName", userData.body.lastName);
 
-        const data = await response.json();
-        console.log("Data:", data);
+        let firstName = localStorage.getItem("firstName");
+        let lastName = localStorage.getItem("lastName");
+        let UserName = lastName + " " + firstName;
 
-        if (!response.ok) {
-            setError("Login failed");
-            console.log("Login failed");
-        } else {
-            console.log("Login successful");
-            localStorage.setItem("token", data.body.token);
+        localStorage.setItem("UserName", UserName);
 
-            // Faire une autre requête pour obtenir le username
-            const userResponse = await fetch("http://localhost:3001/api/v1/user/profile", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${data.body.token}`
-                }
-            });
-            const userData = await userResponse.json();
-            localStorage.setItem("username", userData.body.userName);
-
-            console.log("UserName:", userData.body.userName, "Token: ", data.body.token);
-            navigate(`/dashboard/${userData.body.id}`);
-        }
+        console.log("UserName:", UserName, "Token: ", data.body.token);
+        navigate(`/dashboard/${userData.body.id}`);
+      }
     } catch (error) {
-        console.error("Error:", error);
+      console.error("Error:", error);
     }
-};
+  };
 
   return (
     <div>

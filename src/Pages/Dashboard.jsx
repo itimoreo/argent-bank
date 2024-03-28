@@ -1,28 +1,40 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 
-import Header from '../Composant/Header';
-import Footer from '../Composant/Footer';
+import Header from "../Composant/Header";
+import Footer from "../Composant/Footer";
+import "../css/Dashboard.css";
 
 const Dashboard = () => {
-    const balance = 1000; // Replace with your actual balance
-    const [username, setUsername] = useState('')
+  const balance = 1000; // Replace with your actual balance
+  const [userName, setUserName] = useState("");
 
-    useEffect(() => {
-        const storedUsername = localStorage.getItem('username');
-        if (storedUsername) {
-            setUsername(storedUsername);
-        }
-    }, []);
+  useEffect(() => {
+    const userName = localStorage.getItem("UserName");
+    setUserName(userName);
+  }, []);
 
-
-    return (
-        <div>
-            <Header />
-            <h1>Welcome to Your Bank, {username}</h1>
+  return (
+    <div>
+      <Header />
+      <div className="dash-container" style={{background:'#12002b'}}>
+        <div className="Welcome" style={{  color:'white' }}>
+        <h1>
+          Welcome Back, <br></br>
+          {userName}
+        </h1>
+        <button className="btn-edit" type="submit">
+          Edit Name
+        </button>
+      </div>
+        <div className="bankAccount-container" style={{color:'white'}}>
             <p>Your current balance is: ${balance}</p>
-            <Footer />
         </div>
-    );
+      </div>
+      
+      
+      <Footer />
+    </div>
+  );
 };
 
 export default Dashboard;
