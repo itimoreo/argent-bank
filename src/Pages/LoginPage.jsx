@@ -24,40 +24,52 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3001/api/v1/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
+        const response = await fetch("http://localhost:3001/api/v1/user/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        });
 
-      const data = await response.json();
-      console.log("Data:", data);
+        const data = await response.json();
+        console.log("Data:", data);
 
-      if (!response.ok) {
-        setError("Login failed");
-        console.log("Login failed");
-      } else {
-        console.log("Login successful");
-        localStorage.setItem("token", data.body.token); // add this line
-        navigate(`/dashboard/${data.body.userId}`);
-      }
+        if (!response.ok) {
+            setError("Login failed");
+            console.log("Login failed");
+        } else {
+            console.log("Login successful");
+            localStorage.setItem("token", data.body.token);
+
+            // Faire une autre requête pour obtenir le username
+            const userResponse = await fetch("http://localhost:3001/api/v1/user/profile", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${data.body.token}`
+                }
+            });
+            const userData = await userResponse.json();
+            localStorage.setItem("username", userData.body.userName);
+
+            console.log("UserName:", userData.body.userName, "Token: ", data.body.token);
+            navigate(`/dashboard/${data.body._id}`);
+        }
     } catch (error) {
-      console.error("Error:", error);
+        console.error("Error:", error);
     }
-  };
+};
 
   return (
     <div>
       <Header />
       <div className="container" style={{ background: "#12002b" }}>
         <div className="form" style={{}}>
-        <FontAwesomeIcon icon={faUserCircle} />
-        <h1>Sign-in</h1>
+          <FontAwesomeIcon icon={faUserCircle} />
+          <h1>Sign-in</h1>
           <form onSubmit={handleSubmit}>
             <div className="input-wrapper">
               <label>Email:</label>
