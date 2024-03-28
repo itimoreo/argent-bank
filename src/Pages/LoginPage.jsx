@@ -56,7 +56,7 @@ const LoginPage = () => {
             localStorage.setItem("username", userData.body.userName);
 
             console.log("UserName:", userData.body.userName, "Token: ", data.body.token);
-            navigate(`/dashboard/${data.body._id}`);
+            navigate(`/dashboard/${userData.body.id}`);
         }
     } catch (error) {
         console.error("Error:", error);
