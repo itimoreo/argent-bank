@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import Header from "../Composant/Header";
-import Footer from "../Composant/Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import "../css/Dashboard.css";
 
 const Dashboard = () => {

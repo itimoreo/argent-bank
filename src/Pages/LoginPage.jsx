@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Header from "../Composant/Header";
+import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 import "../css/LoginPage.css";
-import Footer from "../Composant/Footer";
+import Footer from "../components/Footer";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
