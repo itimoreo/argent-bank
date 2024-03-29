@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux"; 
+import { login } from "../redux/actions/authActions";
 
 import "../css/LoginPage.css";
 import Footer from "../components/Footer";
@@ -12,6 +14,9 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+  const userID = useSelector(state => state.auth.user && state.auth.user.id);
+  const dispatch = useDispatch();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -23,55 +28,14 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:3001/api/v1/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
-
-      const data = await response.json();
-      console.log("Data:", data);
-
-      if (!response.ok) {
-        setError("Login failed");
-        console.log("Login failed");
-      } else {
-        console.log("Login successful");
-        localStorage.setItem("token", data.body.token);
-
-        // Faire une autre requête pour obtenir le username
-        const userResponse = await fetch(
-          "http://localhost:3001/api/v1/user/profile",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${data.body.token}`,
-            },
-          }
-        );
-        const userData = await userResponse.json();
-        localStorage.setItem("firstName", userData.body.firstName);
-        localStorage.setItem("lastName", userData.body.lastName);
-
-        let firstName = localStorage.getItem("firstName");
-        let lastName = localStorage.getItem("lastName");
-        let UserName = lastName + " " + firstName;
-
-        localStorage.setItem("UserName", UserName);
-
-        console.log("UserName:", UserName, "Token: ", data.body.token);
-        navigate(`/dashboard/${userData.body.id}`);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    dispatch(login(email, password));
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(`/dashboard/${userID}`);
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div>
