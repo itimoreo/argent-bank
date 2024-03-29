@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/actions/authActions';
 
 import ArgentBankLogo from '../assets/img/argentBankLogo.png';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -8,9 +10,10 @@ import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
 const UserIcon = () => {
     const token = localStorage.getItem('token');
     const isLoggedIn = !!token;
+    const dispatch = useDispatch();
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        dispatch(logout());
     };
 
     return (

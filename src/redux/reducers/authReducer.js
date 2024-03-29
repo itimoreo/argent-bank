@@ -26,8 +26,14 @@ const initialState = {
             };
       case "LOGIN_FAILURE":
         return { ...state, error: action.payload, isLoading: false };
-      case "LOGOUT":
-        return { ...state, user: null };
+        case "LOGOUT":
+            return {
+              ...state,
+              isAuthenticated: false,
+              user: null,
+              loading: false,
+              error: null,
+            };
       default:
         return state;
     }

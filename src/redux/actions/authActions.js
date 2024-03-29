@@ -53,3 +53,14 @@ export const login = (email, password) => {
       }
     };
   };
+
+  export const logout = () => {
+    return (dispatch) => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("firstName");
+      localStorage.removeItem("lastName");
+      localStorage.removeItem("userID");
+      localStorage.removeItem("UserName");
+      dispatch({ type: "LOGOUT" });
+    };
+  }
