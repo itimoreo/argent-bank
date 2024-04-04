@@ -3,14 +3,22 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../css/Dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
+  
+  const handleEditName = () => {
+    navigate("/edit");
+  
+  }
 
   useEffect(() => {
     const userName = localStorage.getItem("UserName");
     setUserName(userName);
   }, []);
+
 
   return (
     <div>
@@ -21,7 +29,7 @@ const Dashboard = () => {
             Welcome Back, <br></br>
             {userName}
           </h1>
-          <button className="btn-edit" type="submit">
+          <button className="btn-edit" type="submit" onClick={handleEditName}>
             Edit Name
           </button>
         </div>

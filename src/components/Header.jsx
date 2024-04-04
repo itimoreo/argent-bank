@@ -12,9 +12,12 @@ const UserIcon = () => {
   const isLoggedIn = !!token;
   const dispatch = useDispatch();
 
-  const handleLogout = () => {
+  const handleLogout = (event) => {
+    event.preventDefault();
     dispatch(logout());
+    console.log(logout())
   };
+  
 
   return (
     <div style={{ color: "#2c3e50" }}>
@@ -35,6 +38,12 @@ const UserIcon = () => {
     </div>
   );
 };
+
+// const initialState: IUserState = {
+//   user: null,
+//   error: null,
+//   id: null,
+// }
 
 const Header = () => {
   return (

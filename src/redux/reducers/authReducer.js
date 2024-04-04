@@ -6,6 +6,8 @@ const initialState = {
     user: null,
     error: null,
     isLoading: false,
+    id: null,
+    token: null,
   };
   
   const authReducer = (state = initialState, action) => {
@@ -21,7 +23,7 @@ const initialState = {
                 name: action.payload,
                 id: localStorage.getItem("userID"), // Ajoutez cette ligne
               },
-              loading: false,
+              isLoading: false,
               error: null,
             };
       case "LOGIN_FAILURE":
@@ -31,8 +33,9 @@ const initialState = {
               ...state,
               isAuthenticated: false,
               user: null,
-              loading: false,
+              isLoading: false,
               error: null,
+              token: null,
             };
       default:
         return state;
