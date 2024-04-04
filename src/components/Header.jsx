@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/actions/authActions";
 
 import ArgentBankLogo from "../assets/img/argentBankLogo.png";
@@ -11,11 +11,14 @@ const UserIcon = () => {
   const token = localStorage.getItem("token");
   const isLoggedIn = !!token;
   const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user); // Accédez à l'état de l'utilisateur
+  const navigate = useNavigate();
 
   const handleLogout = (event) => {
     event.preventDefault();
     dispatch(logout());
     console.log(logout())
+    navigate("/");
   };
   
 
@@ -33,17 +36,26 @@ const UserIcon = () => {
           color: "inherit",
         }}
       >
-        {isLoggedIn ? "Sign Out" : "Sign In"}
+        {isLoggedIn ? `${localStorage.getItem('firstName')}` : "Sign In"} {/* Affichez le nom de l'utilisateur si l'utilisateur est connecté */}
       </Link>
+      {isLoggedIn && (
+        <Link
+          to="/"
+          onClick={handleLogout}
+          style={{
+            marginLeft: "10px",
+            marginRight: "0.5rem",
+            fontSize: "16px",
+            textDecoration: "none",
+            color: "inherit",
+          }}
+        >
+          Sign Out
+        </Link>
+      )}
     </div>
   );
 };
-
-// const initialState: IUserState = {
-//   user: null,
-//   error: null,
-//   id: null,
-// }
 
 const Header = () => {
   return (
@@ -63,6 +75,7 @@ const Header = () => {
           style={{ width: "200px" }}
         />
       </Link>
+      
       <UserIcon />
     </header>
   );
