@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import EditHeader from "../components/EditHeader";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { updateUsername } from "../redux/actions/update-usernameAction";
 
 function EditName() {
   const [userData, setUserData] = useState({
@@ -10,6 +12,8 @@ function EditName() {
       lastName: ""
     }
   });
+  const dispatch = useDispatch();
+  const [userName, setUserName] = useState('');
 
   useEffect(() => {
     // Fetch user info from the database and update the state
@@ -27,25 +31,45 @@ function EditName() {
       .then(response => response.json())
       .then(data => {
         setUserData(data);
+        setUserName(data.body.userName);
         console.log(data);
       })
       .catch(error => console.error('Error:', error));
   }, []);
 
   const handleNameChange = (event) => {
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      body: {
-        ...prevUserData.body,
-        firstName: event.target.value
-      }
-    }));
+    setUserName(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Perform the necessary logic to update the user's username in the database
-    console.log("Updated username:", userData.body.firstName);
+  
+    const url = "http://localhost:3001/api/v1/user/profile";
+    const token = localStorage.getItem("token"); // Assurez-vous d'avoir le token d'authentification de l'utilisateur
+  
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}` // Utilisez le token dans l'en-tête d'autorisation
+      },
+      body: JSON.stringify({
+        userName: userName // Mettez à jour le prénom de l'utilisateur
+      })
+    });
+  
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Data:", data); 
+      setUserData(data); 
+      console.log("Updated username:", userData.body.userName); // Utilisez userData.body.firstName pour afficher le prénom mis à jour
+    
+      dispatch(updateUsername(userData.body.userName));
+  
+      localStorage.setItem('userName', userData.body.userName);
+    } else {
+      console.error("Failed to update username");
+    }
   };
 
   return (
@@ -59,7 +83,7 @@ function EditName() {
             type="text"
             id="name"
             name="name"
-            value={userData.body.firstName}
+            value={userData.body.userName}
             onChange={handleNameChange}
           />
           <p>First Name: {userData.body.firstName}</p>

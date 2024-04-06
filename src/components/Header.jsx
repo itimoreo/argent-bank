@@ -36,7 +36,7 @@ const UserIcon = () => {
           color: "inherit",
         }}
       >
-        {isLoggedIn ? `${localStorage.getItem('firstName')}` : "Sign In"} {/* Affichez le nom de l'utilisateur si l'utilisateur est connecté */}
+        {isLoggedIn ? `${localStorage.getItem('userName')}` : "Sign In"} {/* Affichez le nom de l'utilisateur si l'utilisateur est connecté */}
       </Link>
       {isLoggedIn && (
         <Link
