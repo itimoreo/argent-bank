@@ -9,29 +9,35 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
 const UserIcon = () => {
   const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userID");
   const isLoggedIn = !!token;
+  const userName = useSelector((state) =>
+    state.auth.user ? state.auth.user.name : ""
+  );
   const dispatch = useDispatch();
-  const user = useSelector(state => state.auth.user); // Accédez à l'état de l'utilisateur
   const navigate = useNavigate();
 
   const handleLogout = (event) => {
     event.preventDefault();
     dispatch(logout());
-    console.log(logout())
+    console.log(logout());
     navigate("/");
   };
 
-  const handleUserClick = (event) =>{
+  const handleUserClick = (event) => {
     event.preventDefault();
-    navigate(`/dashboard/${user.id}`)
-  }
-  
+    if (userId) {
+      navigate(`/dashboard/${userId}`);
+    } else {
+      // Gérez le cas où l'utilisateur est null
+    }
+  };
 
   return (
     <div style={{ color: "#2c3e50" }}>
       <FontAwesomeIcon icon={faUserCircle} onClick={handleUserClick} />
       <Link
-        to={isLoggedIn ? `/dashboard/${user.id}` : "/login"}
+        to={isLoggedIn && userId ? `/dashboard/${userId}` : "/login"}
         onClick={isLoggedIn ? handleUserClick : null}
         style={{
           marginLeft: "10px",
@@ -41,7 +47,8 @@ const UserIcon = () => {
           color: "inherit",
         }}
       >
-        {isLoggedIn ? `${localStorage.getItem('userName')}` : "Sign In"} {/* Affichez le nom de l'utilisateur si l'utilisateur est connecté */}
+        {isLoggedIn ? userName : "Sign In"}{" "}
+        {/* Affichez le nom de l'utilisateur si l'utilisateur est connecté */}
       </Link>
       {isLoggedIn && (
         <Link
@@ -80,7 +87,7 @@ const Header = () => {
           style={{ width: "200px" }}
         />
       </Link>
-      
+
       <UserIcon />
     </header>
   );

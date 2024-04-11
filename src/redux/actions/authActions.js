@@ -15,7 +15,6 @@ export const login = (email, password) => {
       });
 
       const data = await response.json();
-      console.log(data);
 
       if (!response.ok) {
         dispatch({ type: "LOGIN_FAILURE", payload: "Login failed" });
@@ -35,17 +34,19 @@ export const login = (email, password) => {
         localStorage.setItem("firstName", userData.body.firstName);
         localStorage.setItem("lastName", userData.body.lastName);
         localStorage.setItem("userID", userData.body.id);
-        console.log(userData.body.firstName);
-        console.log(userData.body.lastName);
-        console.log(userData.body.id);
+
         let firstName = localStorage.getItem("firstName");
         let lastName = localStorage.getItem("lastName");
         let UserName = lastName + " " + firstName;
 
-        localStorage.setItem("UserName", UserName);
-        console.log(UserName);
+        localStorage.setItem("UserName", UserName); // Mettez à jour le nom d'utilisateur dans le localStorage
 
         dispatch({ type: "LOGIN_SUCCESS", payload: UserName });
+
+        dispatch({
+          type: "LOGIN_SUCCESS",
+          payload: { userName: userData.body.userName },
+        });
       }
     } catch (error) {
       dispatch({ type: "LOGIN_FAILURE", payload: error.message });

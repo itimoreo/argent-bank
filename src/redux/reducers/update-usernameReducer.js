@@ -9,10 +9,7 @@ export const userReducer = (state = initialState, action) => {
         case UPDATE_USERNAME:
             return {
                 ...state,
-                userName: {
-                    ...state.userName,
-                    firstName: action.payload,
-                },
+                userName: action.payload, // Mettez à jour userName avec le payload de l'action
             };
         default:
             return state;

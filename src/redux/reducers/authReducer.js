@@ -18,7 +18,7 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: true,
         user: {
           ...state.user,
-          name: action.payload,
+          name: action.payload.userName,
           id: localStorage.getItem("userID"), // Ajoutez cette ligne
         },
         isLoading: false,

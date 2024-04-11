@@ -69,7 +69,7 @@ function EditName() {
         }
       }));
       setUserName(data.body.userName);
-      dispatch(updateUsername(data.body.userName));
+      dispatch(updateUsername(data.body.userName)); // Dispatchez l'action ici
       localStorage.setItem('userName', data.body.userName);
     } else {
       console.error("Failed to update username");
