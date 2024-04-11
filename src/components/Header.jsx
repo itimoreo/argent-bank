@@ -20,14 +20,19 @@ const UserIcon = () => {
     console.log(logout())
     navigate("/");
   };
+
+  const handleUserClick = (event) =>{
+    event.preventDefault();
+    navigate(`/dashboard/${user.id}`)
+  }
   
 
   return (
     <div style={{ color: "#2c3e50" }}>
-      <FontAwesomeIcon icon={faUserCircle} />
+      <FontAwesomeIcon icon={faUserCircle} onClick={handleUserClick} />
       <Link
-        to={isLoggedIn ? "/" : "/login"}
-        onClick={isLoggedIn ? handleLogout : null}
+        to={isLoggedIn ? `/dashboard/${user.id}` : "/login"}
+        onClick={isLoggedIn ? handleUserClick : null}
         style={{
           marginLeft: "10px",
           marginRight: "0.5rem",
