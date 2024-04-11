@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import EditHeader from "../components/EditHeader";
 import Footer from "../components/Footer";
+import Transaction from "../components/Transaction";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateUsername } from "../redux/actions/update-usernameAction";
@@ -60,13 +61,16 @@ function EditName() {
   
     if (response.ok) {
       const data = await response.json();
-      console.log("Data:", data); 
-      setUserData(data); 
-      console.log("Updated username:", userData.body.userName); // Utilisez userData.body.firstName pour afficher le prénom mis à jour
-    
-      dispatch(updateUsername(userData.body.userName));
-  
-      localStorage.setItem('userName', userData.body.userName);
+      setUserData(prevState => ({
+        ...prevState,
+        body: {
+          ...prevState.body,
+          userName: data.body.userName
+        }
+      }));
+      setUserName(data.body.userName);
+      dispatch(updateUsername(data.body.userName));
+      localStorage.setItem('userName', data.body.userName);
     } else {
       console.error("Failed to update username");
     }
@@ -83,13 +87,16 @@ function EditName() {
             type="text"
             id="name"
             name="name"
-            value={userData.body.userName}
+            value={userName}
             onChange={handleNameChange}
           />
           <p>First Name: {userData.body.firstName}</p>
           <p>Last Name: {userData.body.lastName}</p>
           <button type="submit">Save</button>
         </form>
+
+        <Transaction />
+
         <Footer />
       </div>
   );
