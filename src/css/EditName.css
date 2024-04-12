@@ -1,0 +1,55 @@
+.editContainer{
+    background: #fff;
+}
+.form-group{
+    margin-bottom: 20px;
+}
+
+input[type="text"]{
+    width: 10%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.editTitle{
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: grey;
+}
+
+.btn{
+    background-color: #00e54c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 20px;
+}
+.btnSave{
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+.btnSave:hover{
+    background-color: rgb(2, 158, 2);
+}
+.btnCancel{
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+.btnCancel:hover{
+    background-color: rgb(158, 2, 2);
+}

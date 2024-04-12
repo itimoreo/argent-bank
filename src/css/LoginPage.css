@@ -22,11 +22,11 @@
     margin-bottom: 1rem;
 }
 
-.input{
-    width: 90%;
-    padding: 8px;
-    margin-top: 1rem;
-    border: 1px solid #ccc;
+.input {
+    width: 90% !important;
+    padding: 8px !important;
+    margin-top: 1rem !important;
+    border: 1px solid #ccc !important;
 
 }
 
