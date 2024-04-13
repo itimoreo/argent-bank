@@ -97,11 +97,11 @@ function EditName() {
           </div>
           <div class="form-group">
             <label for="firstName">First name: </label>
-            <input type="text" id="firstName" name="firstName" value="Ben" />
+            <input type="text" id="firstName" name="firstName" value={userData.body.firstName} />
           </div>
           <div class="form-group">
             <label for="lastName">Last name: </label>
-            <input type="text" id="lastName" name="lastName" value="Hong" />
+            <input type="text" id="lastName" name="lastName" value={userData.body.lastName} />
           </div>
 
           <button type="submit" className="btn btnSave">
