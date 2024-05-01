@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Transaction = () => {
+const TransactionCollapsed = () => {
 
   return (
     <div>
@@ -11,4 +11,4 @@ const Transaction = () => {
   );
 };
 
-export default Transaction;
+export default TransactionCollapsed;

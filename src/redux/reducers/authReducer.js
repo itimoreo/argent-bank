@@ -19,7 +19,7 @@ const authReducer = (state = initialState, action) => {
         user: {
           ...state.user,
           name: action.payload.userName,
-          id: localStorage.getItem("userID"), // Ajoutez cette ligne
+          id: localStorage.getItem("userID"), // Récupérez l'ID de l'utilisateur dans le stockage local
         },
         isLoading: false,
         error: null,
